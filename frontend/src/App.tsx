@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Sidebar } from "./components/Sidebar";
+import { Menu } from "lucide-react";
 import { LandingPage } from "./pages/LandingPage";
 import { ChatPage } from "./pages/ChatPage";
 import { ProfilePage } from "./pages/ProfilePage";
@@ -20,6 +21,7 @@ export function App() {
   const [currentSessionId, setCurrentSessionId] = useState<string>("");
   const [sessionTitle, setSessionTitle] = useState<string>("New Conversation");
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   
   const [settings, setSettings] = useState<Settings>({
     modelName: "lex",
@@ -138,24 +140,58 @@ export function App() {
   };
 
   return (
-    <div className="flex w-screen h-screen overflow-hidden animated-mesh-bg text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300">
+    <div className="flex w-screen h-screen overflow-hidden animated-mesh-bg text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300 relative">
       
-      {/* Sidebar Navigation */}
-      <Sidebar
-        sessions={sessions}
-        currentSessionId={currentSessionId}
-        activeTab={activeTab}
-        isDark={isDark}
-        onSelectSession={handleSelectSession}
-        onCreateSession={handleCreateSession}
-        onDeleteSession={handleDeleteSession}
-        onClearHistory={handleClearHistory}
-        onTabChange={setActiveTab}
-        onToggleTheme={toggleTheme}
-      />
+      {/* Mobile Sidebar Overlay Backdrop */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-20 md:hidden transition-opacity"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar Drawer container */}
+      <div className={`fixed inset-y-0 left-0 z-30 md:relative md:translate-x-0 transition-transform duration-300 ${
+        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+      }`}>
+        <Sidebar
+          sessions={sessions}
+          currentSessionId={currentSessionId}
+          activeTab={activeTab}
+          isDark={isDark}
+          onSelectSession={(id) => {
+            handleSelectSession(id);
+            setIsSidebarOpen(false);
+          }}
+          onCreateSession={() => {
+            handleCreateSession();
+            setIsSidebarOpen(false);
+          }}
+          onDeleteSession={handleDeleteSession}
+          onClearHistory={handleClearHistory}
+          onTabChange={(tab) => {
+            setActiveTab(tab);
+            setIsSidebarOpen(false);
+          }}
+          onToggleTheme={toggleTheme}
+        />
+      </div>
 
       {/* Main Content Pane */}
       <main className="flex-1 h-screen flex flex-col min-w-0 overflow-hidden relative">
+        {/* Mobile Header Bar */}
+        <div className="md:hidden flex items-center justify-between p-4 border-b border-slate-200/50 dark:border-slate-800/40 glass z-10 flex-shrink-0">
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-2 rounded-xl bg-slate-100/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 active:scale-95 transition"
+            title="Open Sidebar"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <span className="font-bold text-sm text-slate-800 dark:text-white">Lex AI Mentor</span>
+          <div className="w-9 h-9" /> {/* Spacer to align title center */}
+        </div>
+        
         {renderMainContent()}
       </main>
 
