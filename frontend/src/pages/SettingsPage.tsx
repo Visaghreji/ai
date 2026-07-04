@@ -1,6 +1,6 @@
 import React from "react";
 import { Settings as SettingsIcon, Shield, Search, Brain, Moon, Sun } from "lucide-react";
-import { Settings } from "../services/api";
+import { Settings, getApiBase, setApiBase } from "../services/api";
 
 interface SettingsPageProps {
   settings: Settings;
@@ -15,6 +15,7 @@ export function SettingsPage({
   isDark,
   onToggleTheme
 }: SettingsPageProps) {
+  const [apiUrl, setApiUrl] = React.useState(getApiBase());
   
   const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const modelName = e.target.value;
@@ -27,6 +28,12 @@ export function SettingsPage({
 
   const handleToggleMemory = () => {
     onUpdateSettings(prev => ({ ...prev, enableMemory: !prev.enableMemory }));
+  };
+
+  const handleApiUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setApiUrl(val);
+    setApiBase(val);
   };
 
   return (
@@ -43,6 +50,23 @@ export function SettingsPage({
 
       <div className="flex flex-col gap-6">
         
+        {/* Backend API Endpoint Card */}
+        <div className="glass-card rounded-2xl border border-slate-200/50 dark:border-slate-800/50 p-6 shadow-sm flex flex-col gap-4">
+          <div>
+            <h3 className="font-bold text-slate-900 dark:text-white text-sm mb-1">Backend API Endpoint</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Specify the backend server API base URL (e.g. cloud Render URL, localtunnel URL, or local address).</p>
+          </div>
+          
+          <input
+            type="text"
+            value={apiUrl}
+            onChange={handleApiUrlChange}
+            placeholder="http://localhost:8000/api"
+            className="w-full bg-slate-100/50 dark:bg-slate-900/60 border border-slate-200/50 dark:border-slate-800/60 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:border-primary-500/40 outline-none transition"
+          />
+          <span className="text-[10px] text-slate-400">Note: Changes take effect immediately. Default is http://localhost:8000/api</span>
+        </div>
+
         {/* Model Selection Card */}
         <div className="glass-card rounded-2xl border border-slate-200/50 dark:border-slate-800/50 p-6 shadow-sm flex flex-col gap-4">
           <div>

@@ -1,4 +1,16 @@
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000/api";
+const DEFAULT_API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000/api";
+
+export function getApiBase(): string {
+  return localStorage.getItem("LEX_API_BASE") || DEFAULT_API_BASE;
+}
+
+export function setApiBase(url: string) {
+  if (!url) {
+    localStorage.removeItem("LEX_API_BASE");
+  } else {
+    localStorage.setItem("LEX_API_BASE", url);
+  }
+}
 
 export interface Settings {
   modelName: string;
@@ -69,7 +81,7 @@ export interface OllamaStatus {
 // -------------------------------------------------------------
 
 export async function fetchHistory(): Promise<ChatSession[]> {
-  const res = await fetch(`${API_BASE}/history`);
+  const res = await fetch(`${getApiBase()}/history`);
   if (!res.ok) throw new Error("Failed to fetch history");
   return res.json();
 }
@@ -77,20 +89,20 @@ export async function fetchHistory(): Promise<ChatSession[]> {
 export async function fetchSessionDetails(
   sessionId: string,
 ): Promise<ChatSession> {
-  const res = await fetch(`${API_BASE}/history/${sessionId}`);
+  const res = await fetch(`${getApiBase()}/history/${sessionId}`);
   if (!res.ok) throw new Error("Failed to fetch session details");
   return res.json();
 }
 
 export async function deleteSession(sessionId: string): Promise<boolean> {
-  const res = await fetch(`${API_BASE}/history/${sessionId}`, {
+  const res = await fetch(`${getApiBase()}/history/${sessionId}`, {
     method: "DELETE",
   });
   return res.ok;
 }
 
 export async function clearAllHistory(): Promise<boolean> {
-  const res = await fetch(`${API_BASE}/history/clear`, { method: "POST" });
+  const res = await fetch(`${getApiBase()}/history/clear`, { method: "POST" });
   return res.ok;
 }
 
@@ -99,13 +111,13 @@ export async function clearAllHistory(): Promise<boolean> {
 // -------------------------------------------------------------
 
 export async function fetchProfile(): Promise<Profile> {
-  const res = await fetch(`${API_BASE}/profile`);
+  const res = await fetch(`${getApiBase()}/profile`);
   if (!res.ok) throw new Error("Failed to fetch profile");
   return res.json();
 }
 
 export async function saveProfile(profile: Profile): Promise<boolean> {
-  const res = await fetch(`${API_BASE}/profile`, {
+  const res = await fetch(`${getApiBase()}/profile`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(profile),
@@ -114,7 +126,7 @@ export async function saveProfile(profile: Profile): Promise<boolean> {
 }
 
 export async function fetchProgress(): Promise<ProgressStats> {
-  const res = await fetch(`${API_BASE}/progress`);
+  const res = await fetch(`${getApiBase()}/progress`);
   if (!res.ok) throw new Error("Failed to fetch progress stats");
   return res.json();
 }
@@ -129,7 +141,7 @@ export async function uploadFile(
   const formData = new FormData();
   formData.append("file", file);
 
-  const res = await fetch(`${API_BASE}/upload`, {
+  const res = await fetch(`${getApiBase()}/upload`, {
     method: "POST",
     body: formData,
   });
@@ -145,20 +157,20 @@ export async function uploadFile(
 // -------------------------------------------------------------
 
 export async function fetchAdminChats(): Promise<ChatSession[]> {
-  const res = await fetch(`${API_BASE}/admin/chats`);
+  const res = await fetch(`${getApiBase()}/admin/chats`);
   if (!res.ok) throw new Error("Failed to fetch admin chats");
   const data = await res.json();
   return data.sessions || [];
 }
 
 export async function fetchAdminMemory(): Promise<any> {
-  const res = await fetch(`${API_BASE}/admin/memory`);
+  const res = await fetch(`${getApiBase()}/admin/memory`);
   if (!res.ok) throw new Error("Failed to fetch raw memory");
   return res.json();
 }
 
 export async function fetchAdminProgress(): Promise<any> {
-  const res = await fetch(`${API_BASE}/admin/progress`);
+  const res = await fetch(`${getApiBase()}/admin/progress`);
   if (!res.ok) throw new Error("Failed to fetch raw progress");
   return res.json();
 }
@@ -168,13 +180,13 @@ export async function rebuildDatabase(): Promise<{
   total_files: number;
   total_chunks: number;
 }> {
-  const res = await fetch(`${API_BASE}/admin/rebuild-db`, { method: "POST" });
+  const res = await fetch(`${getApiBase()}/admin/rebuild-db`, { method: "POST" });
   if (!res.ok) throw new Error("Failed to rebuild ChromaDB");
   return res.json();
 }
 
 export async function checkOllama(): Promise<OllamaStatus> {
-  const res = await fetch(`${API_BASE}/admin/ollama-status`);
+  const res = await fetch(`${getApiBase()}/admin/ollama-status`);
   if (!res.ok) throw new Error("Failed to fetch Ollama status");
   return res.json();
 }
@@ -182,7 +194,7 @@ export async function checkOllama(): Promise<OllamaStatus> {
 export async function testSearch(
   query: string,
 ): Promise<{ context: string; sources: Source[] }> {
-  const res = await fetch(`${API_BASE}/web-search`, {
+  const res = await fetch(`${getApiBase()}/web-search`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query }),
@@ -205,7 +217,7 @@ export async function streamChat(
   onDone: () => void,
 ) {
   try {
-    const res = await fetch(`${API_BASE}/chat`, {
+    const res = await fetch(`${getApiBase()}/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sessionId, message, settings }),
