@@ -1,4 +1,4 @@
-const DEFAULT_API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000/api";
+const DEFAULT_API_BASE = import.meta.env.VITE_API_BASE || "https://lex-ai-visaghreji.loca.lt/api";
 
 export function getApiBase(): string {
   return localStorage.getItem("LEX_API_BASE") || DEFAULT_API_BASE;
