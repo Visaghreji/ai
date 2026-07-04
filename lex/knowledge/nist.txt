@@ -1,0 +1,8 @@
+NIST Cybersecurity Framework Reference:
+- Core Functions:
+  - Identify: Understand system assets, roles, and risk management profiles.
+  - Protect: Develop safeguards like identity management, access control, and awareness training.
+  - Detect: Implement systems to observe and log anomalies and security events promptly.
+  - Respond: Actions taken upon detection of a security incident to contain its impact.
+  - Recover: Steps to restore capabilities that were impaired during an incident.
+- Security controls cataloged in NIST SP 800-53 define implementation guidelines for these Core Functions.

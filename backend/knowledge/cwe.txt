@@ -1,0 +1,8 @@
+Common Weakness Enumeration (CWE) Reference:
+- CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting' or XSS). Remediate by context-aware output encoding.
+- CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection'). Remediate using prepared statements.
+- CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer. Remediate using memory-safe programming languages or bounds checks.
+- CWE-200: Exposure of Sensitive Information to an Unauthorized Actor. Remediate by limiting debug output and sanitizing exception details.
+- CWE-287: Improper Authentication. Remediate by validating session credentials before executing actions.
+- CWE-352: Cross-Site Request Forgery (CSRF). Remediate by using anti-CSRF state tokens.
+- CWE-502: Deserialization of Untrusted Data. Remediate by avoiding serialization formats that allow code execution, or using allowlists.

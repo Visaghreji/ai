@@ -1,0 +1,15 @@
+MITRE ATT&CK Framework Reference:
+- Tactical Categories:
+  - Initial Access: Methods used by adversaries to enter network targets.
+  - Execution: Adversary techniques to run unauthorized code on target assets.
+  - Persistence: Strategies used to maintain access across restarts or changes.
+  - Privilege Escalation: Exploits and methods to acquire higher authority.
+  - Defense Evasion: Steps taken to avoid detection by security scanners or analysts.
+  - Credential Access: Techniques targeting local password files and databases.
+  - Discovery: Internal network mapping or system structure scanning.
+  - Lateral Movement: Transferring access from one node to neighboring systems.
+  - Collection: Gathering sensitive data or system files.
+  - Command and Control: Establishing external communications channels.
+  - Exfiltration: Extracting collected datasets.
+  - Impact: Disrupting operations or destroying data.
+- Defensive strategies include system hardening, zero-trust network configurations, network segmentation, and regular audit schedules.

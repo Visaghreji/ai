@@ -1,0 +1,6 @@
+Common Vulnerabilities and Exposures (CVE) Examples:
+- CVE-2021-44228 (Log4Shell): Apache Log4j JNDI lookup vulnerability allowing remote code execution. Mitigation: Disable JNDI lookups or upgrade Log4j dependencies.
+- CVE-2017-0144 (EternalBlue): SMBv1 protocol vulnerability allowing remote code execution. Mitigation: Disable SMBv1 and apply Microsoft MS17-010 security updates.
+- CVE-2014-0160 (Heartbleed): OpenSSL heartbeat extension buffer read vulnerability allowing memory exposure. Mitigation: Update OpenSSL to version 1.0.1g or newer.
+- CVE-2023-38606: iOS Kernel vulnerability allowing state modifications. Mitigation: Upgrade iOS to patched versions.
+- CVE-2020-0601 (Windows CryptoAPI): Vulnerability in certificate validation allowing spoofing. Mitigation: Apply Windows security patches.

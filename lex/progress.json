@@ -1,0 +1,72 @@
+{
+  "profile": {
+    "name": "Visagh Reji",
+    "nickname": "Knight",
+    "age": 20,
+    "location": "Kerala, India"
+  },
+
+  "goals": [
+    "Learn AI from top to bottom",
+    "Become a Full Stack Developer",
+    "Learn Cybersecurity",
+    "Learn Quantum Computing"
+  ],
+
+  "learning": {
+    "python_level": "Beginner",
+    "ai_level": "Beginner",
+    "cybersecurity_level": "Beginner",
+    "quantum_computing_level": "Beginner"
+  },
+
+  "completed_topics": [],
+
+  "current_topics": ["Ollama", "Qwen 2.5", "JSON"],
+
+  "projects": [
+    {
+      "name": "Lex AI Assistant",
+      "status": "In Progress"
+    }
+  ],
+
+  "notes": [],
+
+  "favorites": {
+    "movies": [],
+    "anime": [],
+    "books": [],
+    "music": [],
+    "foods": [],
+    "games": []
+  },
+
+  "friends": [
+    {
+      "name": "",
+      "relationship": "Friend"
+    }
+  ],
+
+  "family": {
+    "father": "",
+    "mother": "",
+    "siblings": []
+  },
+
+  "skills": ["Python"],
+
+  "daily_habits": {
+    "study_hours": 0,
+    "exercise": false,
+    "reading": false
+  },
+
+  "achievements": [],
+
+  "conversation_preferences": {
+    "tone": "Friendly Mentor",
+    "explanation_style": "Simple with Examples"
+  }
+}

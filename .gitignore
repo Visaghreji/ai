@@ -1,0 +1,36 @@
+# Ignore environment files and secret configuration
+.env
+.env.*
+
+# Ignore local runtime files and caches
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+*.db-journal
+*.log
+*.local
+.DS_Store
+
+# Ignore local data directories and generated knowledge indexes
+backend/rag_db/
+lex/rag_db/
+backend/memory/
+lex/memory.json
+
+# Ignore uploaded PDFs or private documents stored in knowledge
+backend/knowledge/*.pdf
+lex/knowledge/*.pdf
+
+# Ignore frontend node modules and build output
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.vite/
+
+# Ignore editor settings
+.vscode/*
+!.vscode/extensions.json
+.idea/
