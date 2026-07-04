@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: lex-ai-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    rootDir: backend
+    plan: free
+    envVars:
+      - key: LLM_PROVIDER
+        value: openai
+      - key: OPENAI_API_BASE
+        value: https://generativelanguage.googleapis.com/v1beta/openai/
+      - key: OPENAI_API_KEY
+        value: AIzaSyAYpA3brNUNAhfxv3bjrCisVdaeZDQppNw
+      - key: OPENAI_MODEL_NAME
+        value: gemini-1.5-flash
+      - key: TAVILY_API_KEY
+        value: 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
