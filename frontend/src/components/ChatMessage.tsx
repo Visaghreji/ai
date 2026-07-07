@@ -21,6 +21,19 @@ export function ChatMessage({
 }: ChatMessageProps) {
   const [copied, setCopied] = useState(false);
   const isUser = message.role === "user";
+  const isError = !isUser && (message.content.startsWith("⚠️") || message.content.startsWith("[Error:"));
+
+  const getCleanedError = (content: string) => {
+    let clean = content;
+    if (clean.startsWith("[Error: ") && clean.endsWith("]")) {
+      clean = clean.slice(8, -1);
+    } else if (clean.startsWith("⚠️ Error: ")) {
+      clean = clean.slice(9);
+    } else if (clean.startsWith("⚠️ ")) {
+      clean = clean.slice(2);
+    }
+    return clean;
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(message.content);
@@ -158,7 +171,9 @@ export function ChatMessage({
         className={`max-w-[85%] sm:max-w-[80%] rounded-2xl p-4 transition-all duration-300 ${
           isUser 
             ? "bg-primary-600 text-white rounded-tr-none shadow-md shadow-primary-500/10" 
-            : "glass rounded-tl-none border border-slate-200/60 dark:border-slate-800/40 shadow-sm"
+            : isError
+              ? "bg-rose-500/10 dark:bg-rose-500/5 border border-rose-500/30 dark:border-rose-500/20 text-rose-800 dark:text-rose-200 rounded-tl-none shadow-sm"
+              : "glass rounded-tl-none border border-slate-200/60 dark:border-slate-800/40 shadow-sm"
         }`}
       >
         
@@ -201,7 +216,19 @@ export function ChatMessage({
 
         {/* Content body */}
         <div className="text-sm select-text whitespace-pre-wrap">
-          {isUser ? <p className="leading-relaxed">{message.content}</p> : renderContent(message.content)}
+          {isUser ? (
+            <p className="leading-relaxed">{message.content}</p>
+          ) : isError ? (
+            <div className="flex gap-2.5 items-start text-rose-800 dark:text-rose-200">
+              <span className="text-lg leading-none mt-0.5">⚠️</span>
+              <div className="flex-1">
+                <span className="font-bold block mb-1 text-xs uppercase tracking-wider opacity-90">System Error</span>
+                <p className="leading-relaxed text-rose-700 dark:text-rose-300">{getCleanedError(message.content)}</p>
+              </div>
+            </div>
+          ) : (
+            renderContent(message.content)
+          )}
         </div>
 
         {/* Streaming Loading dots */}

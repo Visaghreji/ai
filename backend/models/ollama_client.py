@@ -105,8 +105,27 @@ async def stream_ollama_chat(messages: List[Dict[str, str]], model: str = "lex")
             async with httpx.AsyncClient(timeout=timeout) as client:
                 async with client.stream("POST", url, headers=headers, json=payload) as response:
                     if response.status_code != 200:
-                        err_text = await response.aread()
-                        yield f"[Error: Cloud LLM API returned status {response.status_code}. Response: {err_text.decode('utf-8', errors='ignore')}]"
+                        err_text_bytes = await response.aread()
+                        err_text = err_text_bytes.decode('utf-8', errors='ignore')
+                        err_msg = ""
+                        try:
+                            err_json = json.loads(err_text)
+                            if isinstance(err_json, list) and len(err_json) > 0:
+                                err_json = err_json[0]
+                            err_msg = err_json.get("error", {}).get("message", "")
+                        except Exception:
+                            pass
+                        
+                        if response.status_code == 429:
+                            msg = "Gemini API Quota Exceeded (429 Rate Limit). The free tier limit (20 requests per day per project) has been reached."
+                            if err_msg:
+                                if "Quota exceeded for metric" in err_msg:
+                                    parts = err_msg.split("\n")
+                                    msg += f" {parts[-1]}"
+                            yield f"[Error: {msg}]"
+                        else:
+                            display_msg = err_msg or err_text
+                            yield f"[Error: Cloud LLM API returned status {response.status_code}. Details: {display_msg}]"
                         return
                     
                     async for line in response.aiter_lines():

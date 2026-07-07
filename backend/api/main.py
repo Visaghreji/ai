@@ -441,13 +441,6 @@ Behavioral Guidelines:
     # Append current enhanced question
     ollama_messages.append({"role": "user", "content": enhanced_content})
     
-    # Update backend log of the chat session with raw user message
-    session["messages"].append({
-        "role": "user", 
-        "content": req.message
-    })
-    save_json_file(CHATS_FILE, chats_data)
-
     # Streaming Response Generator
     async def response_generator():
         # First send metadata (sources)
@@ -466,21 +459,27 @@ Behavioral Guidelines:
             assistant_content += chunk
             yield f"data: {json.dumps({'type': 'chunk', 'content': chunk})}\n\n"
             
-        # Append completed assistant reply to session
-        chats_data_latest = load_json_file(CHATS_FILE, {"sessions": []})
-        for s in chats_data_latest.get("sessions", []):
-            if s["id"] == req.sessionId:
-                # Add source detail to history message
-                s["messages"].append({
-                    "role": "assistant",
-                    "content": assistant_content,
-                    "sources": sources
-                })
-                # Auto generate a better title if it is the first exchange
-                if len(s["messages"]) <= 2:
-                    s["title"] = req.message[:30] + "..." if len(req.message) > 30 else req.message
-                break
-        save_json_file(CHATS_FILE, chats_data_latest)
+        # Append completed user and assistant reply to session (only if no error occurred)
+        if assistant_content and not assistant_content.startswith("[Error:"):
+            chats_data_latest = load_json_file(CHATS_FILE, {"sessions": []})
+            for s in chats_data_latest.get("sessions", []):
+                if s["id"] == req.sessionId:
+                    # Append user message
+                    s["messages"].append({
+                        "role": "user",
+                        "content": req.message
+                    })
+                    # Append assistant message with source detail
+                    s["messages"].append({
+                        "role": "assistant",
+                        "content": assistant_content,
+                        "sources": sources
+                    })
+                    # Auto generate a better title if it is the first exchange
+                    if len(s["messages"]) <= 2:
+                        s["title"] = req.message[:30] + "..." if len(req.message) > 30 else req.message
+                    break
+            save_json_file(CHATS_FILE, chats_data_latest)
         yield "data: [DONE]\n\n"
 
     return StreamingResponse(response_generator(), media_type="text/event-stream")
