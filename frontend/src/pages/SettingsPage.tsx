@@ -61,10 +61,10 @@ export function SettingsPage({
             type="text"
             value={apiUrl}
             onChange={handleApiUrlChange}
-            placeholder="http://localhost:8000/api"
+            placeholder={import.meta.env.DEV ? "http://127.0.0.1:8000/api" : "https://lex-ai-backend-ir33.onrender.com/api"}
             className="w-full bg-slate-100/50 dark:bg-slate-900/60 border border-slate-200/50 dark:border-slate-800/60 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:border-primary-500/40 outline-none transition"
           />
-          <span className="text-[10px] text-slate-400">Note: Changes take effect immediately. Default is http://localhost:8000/api</span>
+          <span className="text-[10px] text-slate-400">Note: Changes take effect immediately. Default is {import.meta.env.DEV ? "http://127.0.0.1:8000/api" : "https://lex-ai-backend-ir33.onrender.com/api"}</span>
         </div>
 
         {/* Model Selection Card */}

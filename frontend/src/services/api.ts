@@ -1,4 +1,4 @@
-const DEFAULT_API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000/api";
+const DEFAULT_API_BASE = import.meta.env.VITE_API_BASE || (import.meta.env.DEV ? "http://127.0.0.1:8000/api" : "https://lex-ai-backend-ir33.onrender.com/api");
 
 export function getApiBase(): string {
   return localStorage.getItem("LEX_API_BASE") || DEFAULT_API_BASE;
