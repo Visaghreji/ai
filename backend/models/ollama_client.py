@@ -30,7 +30,9 @@ async def check_ollama_status() -> Dict:
     
     if llm_provider == "openai":
         api_key = get_api_key()
-        model_name = os.getenv("OPENAI_MODEL_NAME", "gpt-3.5-turbo")
+        model_name = os.getenv("OPENAI_MODEL_NAME", "gemini-2.5-flash")
+        if model_name in ("gemini-1.5-flash", "gpt-3.5-turbo"):
+            model_name = "gemini-2.5-flash"
         if not api_key:
             return {
                 "online": False,
@@ -81,7 +83,9 @@ async def stream_ollama_chat(messages: List[Dict[str, str]], model: str = "lex")
     if llm_provider == "openai":
         api_base = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1").rstrip("/")
         api_key = get_api_key()
-        model_name = os.getenv("OPENAI_MODEL_NAME", "gpt-3.5-turbo")
+        model_name = os.getenv("OPENAI_MODEL_NAME", "gemini-2.5-flash")
+        if model_name in ("gemini-1.5-flash", "gpt-3.5-turbo"):
+            model_name = "gemini-2.5-flash"
         
         url = f"{api_base}/chat/completions"
         headers = {
