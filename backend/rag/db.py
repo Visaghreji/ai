@@ -2,10 +2,6 @@ import os
 import shutil
 import logging
 from typing import List, Dict, Tuple
-import chromadb
-from sentence_transformers import SentenceTransformer
-from pypdf import PdfReader
-from docx import Document
 
 logger = logging.getLogger("lex-backend")
 
@@ -24,6 +20,7 @@ def get_embed_model():
     global _embed_model
     if _embed_model is None:
         logger.info("Initializing SentenceTransformer model 'all-MiniLM-L6-v2'...")
+        from sentence_transformers import SentenceTransformer
         _embed_model = SentenceTransformer("all-MiniLM-L6-v2")
     return _embed_model
 
@@ -31,6 +28,7 @@ def get_chroma_collection():
     global _chroma_client, _collection
     if _chroma_client is None:
         logger.info(f"Initializing ChromaDB client at {DB_PATH}...")
+        import chromadb
         _chroma_client = chromadb.PersistentClient(path=DB_PATH)
         _collection = _chroma_client.get_or_create_collection(name="lex_knowledge")
     return _collection
@@ -45,6 +43,7 @@ def extract_text_from_file(file_path: str) -> str:
             
     elif ext == ".pdf":
         try:
+            from pypdf import PdfReader
             reader = PdfReader(file_path)
             text = ""
             for page in reader.pages:
@@ -58,6 +57,7 @@ def extract_text_from_file(file_path: str) -> str:
             
     elif ext in (".docx", ".doc"):
         try:
+            from docx import Document
             doc = Document(file_path)
             text = []
             for paragraph in doc.paragraphs:
