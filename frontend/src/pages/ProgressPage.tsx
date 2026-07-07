@@ -24,7 +24,7 @@ export function ProgressPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 flex items-center justify-center h-screen bg-slate-50/50 dark:bg-slate-950/20">
+      <div className="flex-1 flex items-center justify-center h-full bg-slate-50/50 dark:bg-slate-950/20">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Loading progress tracking metrics...</span>
@@ -35,7 +35,7 @@ export function ProgressPage() {
 
   if (!data) {
     return (
-      <div className="flex-1 flex items-center justify-center h-screen bg-slate-50/50 dark:bg-slate-950/20">
+      <div className="flex-1 flex items-center justify-center h-full bg-slate-50/50 dark:bg-slate-950/20">
         <div className="text-center text-red-500 text-sm font-semibold">
           Error: Failed to fetch progress stats. Ensure backend is running.
         </div>

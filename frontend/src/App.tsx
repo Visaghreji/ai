@@ -140,7 +140,7 @@ export function App() {
   };
 
   return (
-    <div className="flex w-screen h-screen overflow-hidden animated-mesh-bg text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300 relative">
+    <div className="w-screen h-screen overflow-hidden animated-mesh-bg text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300 relative">
       
       {/* Mobile Sidebar Overlay Backdrop */}
       {isSidebarOpen && (
@@ -151,8 +151,8 @@ export function App() {
       )}
 
       {/* Sidebar Drawer container */}
-      <div className={`fixed inset-y-0 left-0 z-30 md:relative md:translate-x-0 transition-transform duration-300 ${
-        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+      <div className={`fixed inset-y-0 left-0 z-30 transition-transform duration-300 overflow-y-auto md:overflow-y-hidden ${
+        isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
       }`}>
         <Sidebar
           sessions={sessions}
@@ -178,7 +178,7 @@ export function App() {
       </div>
 
       {/* Main Content Pane */}
-      <main className="flex-1 h-screen flex flex-col min-w-0 overflow-hidden relative">
+      <main className="md:pl-80 h-screen flex flex-col min-w-0 overflow-hidden relative">
         {/* Mobile Header Bar */}
         <div className="md:hidden flex items-center justify-between p-4 border-b border-slate-200/50 dark:border-slate-800/40 glass z-10 flex-shrink-0">
           <button

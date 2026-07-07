@@ -46,7 +46,7 @@ export function Sidebar({
   ];
 
   return (
-    <aside className="w-80 h-screen border-r border-slate-200/50 dark:border-slate-800/40 glass flex flex-col justify-between flex-shrink-0 z-10 transition-all duration-300">
+    <aside className="w-80 h-auto md:h-screen border-r border-slate-200/50 dark:border-slate-800/40 glass flex flex-col justify-between flex-shrink-0 z-10 transition-all duration-300 overflow-y-visible md:overflow-y-hidden">
       
       {/* Top Brand & Actions */}
       <div className="p-4 flex flex-col gap-3">
@@ -123,7 +123,7 @@ export function Sidebar({
         </div>
 
         {/* Scrollable list */}
-        <div className="flex-1 overflow-y-auto px-2 flex flex-col gap-1">
+        <div className="flex-1 overflow-y-visible md:overflow-y-auto px-2 flex flex-col gap-1">
           {filteredSessions.length === 0 ? (
             <div className="text-center py-8 text-xs text-slate-400 dark:text-slate-500">
               No conversations found

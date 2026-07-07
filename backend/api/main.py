@@ -13,15 +13,26 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
-from backend.models.ollama_client import check_ollama_status, stream_ollama_chat
-from backend.rag.db import (
-    query_rag_knowledge, 
-    add_document_to_db, 
-    rebuild_chromadb_index, 
-    list_knowledge_files,
-    KNOWLEDGE_DIR
-)
-from backend.websearch.search import run_web_search
+try:
+    from backend.models.ollama_client import check_ollama_status, stream_ollama_chat
+    from backend.rag.db import (
+        query_rag_knowledge, 
+        add_document_to_db, 
+        rebuild_chromadb_index, 
+        list_knowledge_files,
+        KNOWLEDGE_DIR
+    )
+    from backend.websearch.search import run_web_search
+except ModuleNotFoundError:
+    from models.ollama_client import check_ollama_status, stream_ollama_chat
+    from rag.db import (
+        query_rag_knowledge, 
+        add_document_to_db, 
+        rebuild_chromadb_index, 
+        list_knowledge_files,
+        KNOWLEDGE_DIR
+    )
+    from websearch.search import run_web_search
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)

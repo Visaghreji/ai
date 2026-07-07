@@ -92,13 +92,12 @@ export function SettingsPage({
           
           <h3 className="font-bold text-slate-900 dark:text-white text-sm border-b border-slate-200/20 dark:border-slate-800/20 pb-2">Operational Features</h3>
 
-          {/* Web Search */}
-          <div className="flex items-center justify-between">
-            <div className="flex gap-4 items-start">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex gap-4 items-start min-w-0">
               <div className="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5">
                 <Search className="w-4.5 h-4.5" />
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <h4 className="font-bold text-slate-900 dark:text-white text-xs">Live Web Crawling</h4>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 max-w-md mt-0.5">Allow Lex to perform Tavily searches if queries trigger current event tags (Weather, news, matches, etc).</p>
               </div>
@@ -114,13 +113,12 @@ export function SettingsPage({
             </button>
           </div>
 
-          {/* Memory */}
-          <div className="flex items-center justify-between">
-            <div className="flex gap-4 items-start">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex gap-4 items-start min-w-0">
               <div className="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center flex-shrink-0 mt-0.5">
                 <Brain className="w-4.5 h-4.5" />
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <h4 className="font-bold text-slate-900 dark:text-white text-xs">Interactive Memory Routing</h4>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 max-w-md mt-0.5">Use custom keyword matching to route questions (Memory, RAG, Web) to feed tailored settings to the prompt constructor.</p>
               </div>
@@ -136,13 +134,12 @@ export function SettingsPage({
             </button>
           </div>
 
-          {/* Dark Mode Theme */}
-          <div className="flex items-center justify-between border-t border-slate-200/20 dark:border-slate-800/20 pt-4">
-            <div className="flex gap-4 items-start">
+          <div className="flex items-center justify-between gap-4 border-t border-slate-200/20 dark:border-slate-800/20 pt-4">
+            <div className="flex gap-4 items-start min-w-0">
               <div className="w-9 h-9 rounded-xl bg-slate-500/10 text-slate-600 dark:text-slate-400 flex items-center justify-center flex-shrink-0 mt-0.5">
                 {isDark ? <Moon className="w-4.5 h-4.5" /> : <Sun className="w-4.5 h-4.5" />}
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <h4 className="font-bold text-slate-900 dark:text-white text-xs">Dark Interface Theme</h4>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 max-w-md mt-0.5">Switch UI components to dark or light themes depending on lighting preferences.</p>
               </div>

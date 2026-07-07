@@ -278,7 +278,7 @@ export function ChatPage({
   };
 
   return (
-    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-slate-50/50 dark:bg-slate-950/20 relative">
+    <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-slate-50/50 dark:bg-slate-950/20 relative">
       {/* Header Bar */}
       <header className="h-16 border-b border-slate-200/40 dark:border-slate-800/40 glass px-6 flex items-center justify-between z-10 flex-shrink-0">
         <div className="flex items-center gap-3 min-w-0">
@@ -417,7 +417,7 @@ export function ChatPage({
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={isStreaming}
-              className="flex-1 bg-transparent border-none outline-none py-1 text-slate-800 dark:text-slate-100 text-sm placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0"
+              className="flex-1 min-w-0 bg-transparent border-none outline-none py-1 text-slate-800 dark:text-slate-100 text-sm placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0"
             />
 
             <button
