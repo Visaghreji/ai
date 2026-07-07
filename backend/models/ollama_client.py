@@ -8,19 +8,35 @@ logger = logging.getLogger("lex-backend")
 
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 
+def get_api_key() -> str:
+    """Gets the active API key, filtering out the revoked/hardcoded token."""
+    revoked_key = "AIzaSyAYpA3brNUNAhfxv3bjrCisVdaeZDQppNw"
+    
+    # Try OPENAI_API_KEY
+    key = os.getenv("OPENAI_API_KEY", "")
+    if key and key != revoked_key:
+        return key
+        
+    # Try GEMINI_API_KEY
+    key = os.getenv("GEMINI_API_KEY", "")
+    if key and key != revoked_key:
+        return key
+        
+    return ""
+
 async def check_ollama_status() -> Dict:
     """Checks the status of the configured LLM provider."""
     llm_provider = os.getenv("LLM_PROVIDER", "ollama").lower()
     
     if llm_provider == "openai":
-        api_key = os.getenv("OPENAI_API_KEY", "")
+        api_key = get_api_key()
         model_name = os.getenv("OPENAI_MODEL_NAME", "gpt-3.5-turbo")
         if not api_key:
             return {
                 "online": False,
                 "models": [],
                 "has_lex_model": False,
-                "message": "Cloud provider (OpenAI-compatible) selected, but OPENAI_API_KEY is not set."
+                "message": "Cloud provider (OpenAI-compatible) selected, but OPENAI_API_KEY/GEMINI_API_KEY is not set."
             }
         return {
             "online": True,
@@ -64,7 +80,7 @@ async def stream_ollama_chat(messages: List[Dict[str, str]], model: str = "lex")
     
     if llm_provider == "openai":
         api_base = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1").rstrip("/")
-        api_key = os.getenv("OPENAI_API_KEY", "")
+        api_key = get_api_key()
         model_name = os.getenv("OPENAI_MODEL_NAME", "gpt-3.5-turbo")
         
         url = f"{api_base}/chat/completions"
