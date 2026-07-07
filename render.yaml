@@ -12,8 +12,8 @@ services:
       - key: OPENAI_API_BASE
         value: https://generativelanguage.googleapis.com/v1beta/openai/
       - key: OPENAI_API_KEY
-        value: AIzaSyAYpA3brNUNAhfxv3bjrCisVdaeZDQppNw
+        sync: false
       - key: OPENAI_MODEL_NAME
         value: gemini-1.5-flash
       - key: TAVILY_API_KEY
-        value: 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
+        sync: false
